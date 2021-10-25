@@ -1,0 +1,297 @@
+{% assign itemType = product %}
+{% if template contains 'search' %}
+  {% assign itemType = item %}
+{% elsif template contains 'product' %}
+  {% assign itemType = prod %}
+{% endif %}
+
+{% assign selected_variant = itemType.selected_or_first_available_variant %}
+
+
+
+<div class="indiv-product">
+
+ 
+
+
+
+    <div class="collection-image--zoom-effect">
+      <div class="zoom-effect--inner">
+        {% unless grid_image_width %}
+  		{%- assign grid_image_width = '600x600' -%}
+		{% endunless %}
+     <a class="grid-view-item__link {% if product.images.size > 1 %} has-secondary{% endif %}" href="{{ product.url | within: collection }}">
+    <img class="grid-view-item__image" src="{{ product.featured_image.src | img_url: grid_image_width }}" alt="{{ product.featured_image.alt }}">
+    {% if product.images.size > 1 %}
+     <img class="secondary" src="{{ product.images[1] | img_url: grid_image_width }}" alt="{{ product.images[1].alt | escape }}">
+    {% endif %}
+
+        </a>
+      </div>
+    </div>
+  
+
+  
+
+  <div class="hp-title">
+
+  {% if settings.product-grid--show-vendor %}
+    <div class="indiv-product-vendor-text">{{ liquidObject.vendor | link_to_vendor }}</div>
+  {% endif %}
+
+    <a href="{{ liquidObject.url | within: collection }}">
+
+      <span class="indiv-product-title-text">{{ liquidObject.title }}</span>
+      
+      {% if product.title == '2 FOR ME 2 FOR YOU' or product.title == 'The Best Professional Hair Kit' or product.title == 'GKhair Vent Brush 2.5 inch' 
+         or product.title == 'GKhair Black Balayage Application Brush' or product.title == 'Mixing Bowl' or product.title == 'Holiday Shine Box' or product.title == 'Holiday Travel'
+         or product.title == 'Blonde Style' or product.title == 'Shield Special' or product.title == 'Holiday Moisture Favorites' or product.title == 'Shield Large Special' 
+         or product.title == 'Miami Bombshell' %}
+          
+         {% else %}
+               <span class="price dib mb__5">{%- render 'product_price',product:product,inc_price:inc_price -%}</span>
+
+<!--       <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span> -->
+         {% endif %}
+  
+      
+  <deliverr data-component="Badge" data-productId="{{product.id}}"></deliverr>
+<!-- Above -- home, collections, cart pages -->
+<!--   product details pages
+  <deliverr data-component="BadgeWithCountdown"></deliverr> -->
+
+  <!-- can hide promo code by applying the attribute data-hide-promo="true" -->
+  <!-- Example: <deliverr data-component="BadgeWithCountdown" data-hide-promo="true"></deliverr> -->
+  
+
+    {% if itemType.available %} 
+      
+     
+        
+        <div class="buy-now-btn-grid-css">  
+         <button class="product-submit action-button submit addtocart-button-active new-btn-with-price" data-product-submit="" data-product-variant-id="" value="Add to cart">
+              <span class="product-card-interaction-addtocart-available buy-btn-price"> Shop Now
+              </span>
+
+        </button>
+          
+        </div>
+        
+     {% else %}
+              <div class="buy-now-btn-grid-css">  
+    
+            <button
+              class="
+                product-submit
+                action-button
+                submit
+                unavailable
+                disabled sold-out-btn
+              "
+              data-product-submit
+              onClick="this.disabled=true; return false;">
+              Sold Out
+            </button>
+               </div>
+     
+           
+      {% endif %} 
+       
+        
+      {% if settings.show_reviews %}
+        <span class="shopify-product-reviews-badge" data-id="{{ liquidObject.id }}"></span>
+      {% endif %}
+
+    </a>
+  </div>
+  {% if liquidObject.available %}
+    {% if liquidObject.compare_at_price_max > liquidObject.price and settings.sale_badge %}
+      <div class="envy-badge sale-badge">{{ 'products.general.sale' | t }}</div>
+    {% endif %}
+  {% elsif settings.sold_out_badge %}
+    <div class="envy-badge sold-out-badge">{{ 'products.product.sold_out' | t }}</div>
+  {% endif %}
+</div>
+
+<script src="lazysizes.min.js" async=""></script>
+<style>
+  div#shopify-section-collection-template {
+    width: 100%;
+    float: left;
+    padding-top: 37px;
+    padding-bottom: 47px;
+}
+  div#shopify-section-collection-template h3 {
+    font-size: 30px;
+    line-height: 44px;
+    text-align: center;
+    letter-spacing: .1em;
+    text-transform: uppercase;
+    color: #2d006a;
+    margin-bottom: 50px;
+}
+  div#shopify-section-collection-template .product-grid {
+    padding-bottom: 73px;
+}
+  .clearfix:before, .clearfix:after {
+    content: "";
+    display: table;
+}
+  .content-area {
+    display: block;
+    width: 100%;
+    max-width: 1430px;
+    min-width: 690px;
+    padding: 0 15px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+  .col-md-12.list-collection-page__heading-1 {
+    margin-top: 20px;
+}
+  .indiv-product-wrapper.collection-image-anim {
+    width: 23%;
+    float: left;
+    background: #fff;
+    padding: 20px 20px;
+   
+    margin: 10px 0px 20px;
+}
+  .collection-image--zoom-effect {
+    overflow: hidden;
+}
+  .collection-image--zoom-effect div.zoom-effect--inner {
+   max-width: 72%;
+    position: relative;
+    left: 58px;
+    -webkit-transition: margin .1s ease,transform .25s ease;
+    -moz-transition: margin .1s ease,transform .25s ease;
+    -o-transition: margin .1s ease,transform .25s ease;
+    transition: margin .1s ease,transform .25s ease;
+}
+  .indiv-product .lazyload-blur-wrapper {
+    justify-content: center;
+    display: flex;
+}
+  .hp-title {
+    text-align: center;
+    margin-top: 16px;
+}
+  .hp-title span.indiv-product-title-text {
+    font-weight: 500;
+    font-family: 'Poppins';
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #ffa400;
+    width: 100%;
+    float: left;
+    min-height: 32px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 0px 0;
+}
+  .spr-badge {
+    *zoom: 1;
+    min-height: auto;
+    min-width: auto;
+    display: block;
+}
+  .spr-badge:before, .spr-badge:after {
+    content: " ";
+    display: table;
+}
+  .spr-badge-starrating {
+    margin: 0 3px 0 0;
+}
+  h3.section-title.tc.pr.flex.fl_center.al_center.fs__24.title_11 {
+    white-space: nowrap;
+}
+  span.money.money--last.buy-btn-price-2 {
+    display: none;
+  }
+    @media (max-width: 768px) {
+    
+    .content-area {
+    display: block;
+    width: 100%;
+    max-width: 1394px;
+    min-width: 368px;
+    padding: 0 15px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+   .hp-title span.indiv-product-title-text {
+      font-size: 12px;
+      line-height: 18px;
+      }
+      .indiv-product-wrapper.collection-image-anim {
+      
+        margin: 10px 0px 20px;
+      }
+        .collection-image--zoom-effect div.zoom-effect--inner {
+    max-width: 100%;
+                      left: 0px;
+
+    -webkit-transition: margin .1s ease,transform .25s ease;
+    -moz-transition: margin .1s ease,transform .25s ease;
+    -o-transition: margin .1s ease,transform .25s ease;
+    transition: margin .1s ease,transform .25s ease;
+}
+    
+  }
+  
+  @media(min-width: 769px) and (max-width: 1023px) {
+  
+   .indiv-product-wrapper.collection-image-anim {
+      
+        margin: 10px 0px 20px;
+      }
+      .collection-image--zoom-effect div.zoom-effect--inner {
+    max-width: 100%;
+            left: 0px;
+
+    -webkit-transition: margin .1s ease,transform .25s ease;
+    -moz-transition: margin .1s ease,transform .25s ease;
+    -o-transition: margin .1s ease,transform .25s ease;
+    transition: margin .1s ease,transform .25s ease;
+}
+  }
+  .has-secondary.grid-view-item__link img.secondary{
+ display:none;
+}
+
+.has-secondary.grid-view-item__link:hover img.secondary{
+ display:block;
+}
+
+.has-secondary.grid-view-item__link:hover img.grid-view-item__image{
+ display:none;
+}
+
+@media screen and (min-width:767px){
+.has-secondary.grid-view-item__link img.secondary{
+ display:none;
+}
+
+.has-secondary.grid-view-item__link:hover img.secondary{
+ display:block;
+}
+
+.has-secondary.grid-view-item__link:hover img.grid-view-item__image{
+ display:none;
+}
+}
+
+@media screen and (max-width:767px){
+.has-secondary.grid-view-item__link img.secondary{
+ display:none;
+}
+}
+
+</style>
